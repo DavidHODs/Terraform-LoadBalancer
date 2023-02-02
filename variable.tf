@@ -7,5 +7,7 @@ variable "terra_var" {
     keyname = "terrakey"
     subnet = "172.31.0.0/16"
     terrapem = "/home/david/aws/terra.pem"
+    terrapp = "terra_app"
+    lb = "terra_lb"
   }
 }

@@ -42,6 +42,11 @@ resource "aws_security_group" "terra_sec" {
 resource "aws_subnet" "subnet" {
   vpc_id = lookup(var.terra_var, "vpc")
   cidr_block = lookup(var.terra_var, "subnet")
+  count = 2
+
+  tags = {
+    "Name" = "subnet-${count.index}"
+  }
 }
 
 resource aws_instance "terra_ec2" {
@@ -49,7 +54,7 @@ resource aws_instance "terra_ec2" {
     instance_type = lookup(var.terra_var, "ttype")
     key_name = aws_key_pair.terra_generated_key.key_name 
     security_groups = [aws_security_group.terra_sec.id]
-    subnet_id = aws_subnet.subnet.id
+    subnet_id = aws_subnet.subnet[0]
     count = 3
 
     tags = {
