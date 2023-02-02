@@ -5,9 +5,17 @@ variable "terra_var" {
     ami = "ami-00874d747dde814fa"
     ttype = "t2.micro"
     keyname = "terrakey"
-    subnet = "172.31.0.0/16"
     terrapem = "/home/david/aws/terra.pem"
     terraapp = "terra-app"
     lb = "terra-lb"
+    # zones = "us-east-1a", "us-east-1b"
   }
+}
+
+variable "terra_zone" {
+    type = map(list(string))
+    default = {
+        "zones" = ["us-east-1a", "us-east-1b"]
+        "cidr" = ["172.31.0.0/16", "172.30.0.0/16"]
+    }
 }

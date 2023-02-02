@@ -1,6 +1,5 @@
 resource "aws_lb_target_group" "terra_target" {
     name = lookup(var.terra_var, "terraapp")
-    # instances = [for terra_instance in aws_instance.terra_ec2 : terra_instance.id]
     port = 80
     protocol = "HTTP"
     vpc_id = lookup(var.terra_var, "vpc")
@@ -21,7 +20,6 @@ resource "aws_lb_target_group" "terra_target" {
 
 resource "aws_lb" "terra_lb" {
   name = lookup(var.terra_var, "lb")
-#   availability_zones = ["us-west-1a", "us-west-1b"]
   internal = false
   load_balancer_type = "application"
   security_groups = [aws_security_group.terra_sec.id]

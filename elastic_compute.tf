@@ -41,13 +41,20 @@ resource "aws_security_group" "terra_sec" {
 
 resource "aws_subnet" "subnet" {
   vpc_id = lookup(var.terra_var, "vpc")
-  cidr_block = lookup(var.terra_var, "subnet")
+  cidr_block = lookup(var.terra_zone, "cidr")[count.index]
+  availability_zone = lookup(var.terra_zone, "zones")[count.index]
   count = 2
 
   tags = {
     "Name" = "subnet-${count.index}"
   }
 }
+
+output "array" {
+  description = "array of zones"
+  value       = aws_subnet.subnet[0].availability_zone
+}
+
 
 resource aws_instance "terra_ec2" {
     ami = lookup(var.terra_var, "ami")
