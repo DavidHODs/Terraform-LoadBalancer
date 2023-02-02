@@ -54,7 +54,8 @@ resource aws_instance "terra_ec2" {
     instance_type = lookup(var.terra_var, "ttype")
     key_name = aws_key_pair.terra_generated_key.key_name 
     security_groups = [aws_security_group.terra_sec.id]
-    subnet_id = aws_subnet.subnet[0]
+    subnet_id = aws_subnet.subnet[0].id
+
     count = 3
 
     tags = {
