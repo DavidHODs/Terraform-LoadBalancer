@@ -16,6 +16,6 @@ variable "terra_zone" {
     type = map(list(string))
     default = {
         "zones" = ["us-east-1a", "us-east-1b"]
-        "cidr" = ["172.31.0.0/16", "172.30.0.0/16"]
+        "cidr" = ["172.31.0.0/24", "172.31.7.0/24"]
     }
 }

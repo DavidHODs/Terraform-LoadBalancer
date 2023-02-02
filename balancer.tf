@@ -43,3 +43,11 @@ resource "aws_lb_listener" "terra_listener" {
       target_group_arn = aws_lb_target_group.terra_target.arn
     }
 }
+
+resource "aws_lb_target_group_attachment" "terra_attachment" {
+  target_group_arn = aws_lb_target_group.terra_target.arn
+  target_id        = aws_instance.terra_ec2[count.index].id
+  port             = 80
+
+  count = 3
+}
