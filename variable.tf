@@ -3,8 +3,6 @@ variable "terra_var" {
     default = {
     ami = "ami-00874d747dde814fa"
     ttype = "t2.micro"
-    keyname = "terrakey"
-    terrapem = "/home/david/aws/terra.pem"
     terraapp = "terra-app"
     lb = "terra-lb"
     route_table = "0.0.0.0/0"
