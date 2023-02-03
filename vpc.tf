@@ -1,10 +1,9 @@
 resource "aws_vpc" "terra-vpc" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support = true 
-  enable_classiclink = false
   instance_tenancy = "default"
 
-  tags {
+  tags = {
     Name = "terra-vpc"
   }
 }
@@ -33,11 +32,11 @@ resource "aws_route_table" "terra-rt" {
     vpc_id = aws_vpc.terra-vpc.id
 
     route {
-        cidr_block = lookup(var.terra_zone, "route_table")
+        cidr_block = lookup(var.terra_var, "route_table")
         gateway_id = aws_internet_gateway.terra-igw.id
     }
 
-    tags {
+    tags = {
         Name = "terra-rt"
     }
 }
@@ -45,4 +44,6 @@ resource "aws_route_table" "terra-rt" {
 resource "aws_route_table_association" "terra-rt-association" {
     subnet_id = aws_subnet.terra-subnet[count.index].id
     route_table_id = aws_route_table.terra-rt.id
+
+    count = 2
 }

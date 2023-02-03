@@ -28,7 +28,7 @@ resource "aws_security_group" "terra_sec" {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = lookup(var.my_ip, "ip")
+        cidr_blocks = ["0.0.0.0/0"]
     }
 
     egress {
@@ -45,7 +45,7 @@ resource aws_instance "terra_ec2" {
     key_name = aws_key_pair.terra_generated_key.key_name 
     # ec2_associate_public_ip_address = true
     security_groups = [aws_security_group.terra_sec.id]
-    subnet_id = aws_subnet.subnet[0].id
+    subnet_id = aws_subnet.terra-subnet[0].id
 
     count = 3
 

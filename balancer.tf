@@ -2,7 +2,7 @@ resource "aws_lb_target_group" "terra_target" {
     name = lookup(var.terra_var, "terraapp")
     port = 80
     protocol = "HTTP"
-    vpc_id = lookup(var.terra_var, "vpc")
+    vpc_id = aws_vpc.terra-vpc.id
 
     health_check {
       enabled = true
@@ -23,7 +23,7 @@ resource "aws_lb" "terra_lb" {
   internal = false
   load_balancer_type = "application"
   security_groups = [aws_security_group.terra_sec.id]
-  subnets = [for terra_sub in aws_subnet.subnet : terra_sub.id]
+  subnets = [for terra_sub in aws_subnet.terra-subnet : terra_sub.id]
 
   enable_deletion_protection = false
   
