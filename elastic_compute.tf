@@ -14,7 +14,7 @@ resource "aws_key_pair" "terra_generated_key" {
 
 resource "aws_security_group" "terra_sec" {
     name = "terra_sec_group"
-    vpc_id = lookup(var.terra_var, "vpc")
+    vpc_id = aws_vpc.terra-vpc.id
     description = "Allow HTTP and SSH traffic via Terraform"
 
     ingress {
@@ -28,7 +28,7 @@ resource "aws_security_group" "terra_sec" {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = lookup(var.my_ip, "ip")
     }
 
     egress {
@@ -39,27 +39,11 @@ resource "aws_security_group" "terra_sec" {
     }
 }
 
-resource "aws_subnet" "subnet" {
-  vpc_id = lookup(var.terra_var, "vpc")
-  cidr_block = lookup(var.terra_zone, "cidr")[count.index]
-  availability_zone = lookup(var.terra_zone, "zones")[count.index]
-  count = 2
-
-  tags = {
-    "Name" = "subnet-${count.index}"
-  }
-}
-
-output "array" {
-  description = "array of zones"
-  value       = aws_subnet.subnet[0].availability_zone
-}
-
-
 resource aws_instance "terra_ec2" {
     ami = lookup(var.terra_var, "ami")
     instance_type = lookup(var.terra_var, "ttype")
     key_name = aws_key_pair.terra_generated_key.key_name 
+    # ec2_associate_public_ip_address = true
     security_groups = [aws_security_group.terra_sec.id]
     subnet_id = aws_subnet.subnet[0].id
 
