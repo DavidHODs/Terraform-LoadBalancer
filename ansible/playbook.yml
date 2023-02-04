@@ -7,11 +7,12 @@
 
   tasks:
     - block:
-      - name: Set Server to the Africa/Lagos Timezone and Display Timezone
+      - name: Set Server to the Africa/Lagos Timezone, Update Packages and Display Timezone
         command: "{{ item }}"
         with_items:
-          - sudo timedatectl set-timezone Africa/Lagos
+          - timedatectl set-timezone Africa/Lagos
           - timedatectl
+          - apt update -y 
         register: checkZone
       - debug: var=checkZone.results[1].stdout_lines[3].lstrip()
 
@@ -35,7 +36,7 @@
           - Ensure Apache is Running
         
       - name: Check Apache2 Status
-        shell: sudo systemctl status apache2
+        shell: systemctl status apache2
         register: ApacheStatus
       - debug: var=ApacheStatus.stdout_lines[2].lstrip()
 
