@@ -1,3 +1,4 @@
+# creates a target group on port 80 with HTTP protocol
 resource "aws_lb_target_group" "terra_target" {
     name = lookup(var.terra_var, "terraapp")
     port = 80
@@ -17,7 +18,7 @@ resource "aws_lb_target_group" "terra_target" {
     }
 }
 
-
+# creates a internet facing application load balancer. 
 resource "aws_lb" "terra_lb" {
   name = lookup(var.terra_var, "lb")
   internal = false
@@ -32,7 +33,7 @@ resource "aws_lb" "terra_lb" {
   }
 }
 
-
+# creates a listener on port 80
 resource "aws_lb_listener" "terra_listener" {
     load_balancer_arn = aws_lb.terra_lb.arn
     port = "80"
@@ -44,6 +45,7 @@ resource "aws_lb_listener" "terra_listener" {
     }
 }
 
+# attaches the created ec2 resources to the load balancer
 resource "aws_lb_target_group_attachment" "terra_attachment" {
   target_group_arn = aws_lb_target_group.terra_target.arn
   target_id        = aws_instance.terra_ec2[count.index].id

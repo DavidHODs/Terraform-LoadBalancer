@@ -1,3 +1,4 @@
+# creates a vpc having ipv4 dns support (otherwise connecting ansible with the ec2 instances will be impossible)
 resource "aws_vpc" "terra-vpc" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support = true 
@@ -10,6 +11,7 @@ resource "aws_vpc" "terra-vpc" {
   }
 }
 
+# creates 3 public ssubnets
 resource "aws_subnet" "terra-subnet" {
   vpc_id = aws_vpc.terra-vpc.id
   cidr_block = lookup(var.terra_zone, "cidr")[count.index]
