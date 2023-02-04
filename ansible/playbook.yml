@@ -34,6 +34,11 @@
           path: "{{ path }}/index.php"
           state: absent
 
+      - name: "Delete HTML Index File if Present"
+        ansible.builtin.file:
+          path: "{{ path }}/index.html"
+          state: absent
+
       - name: Copy PHP Index File
         copy:
           src: /home/david/Desktop/Terra/ansible/index.php
