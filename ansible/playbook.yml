@@ -1,0 +1,51 @@
+#!/home/david/ansible/myansible/bin/ansible-playbook
+
+- name: AltSchool Ansible Project
+  hosts: aws_ec2
+  become: 'yes'
+  become_user: root
+
+  tasks:
+    - block:
+      - name: Set Server to the Africa/Lagos Timezone and Display Timezone
+        command: "{{ item }}"
+        with_items:
+          - sudo timedatectl set-timezone Africa/Lagos
+          - timedatectl
+        register: checkZone
+      - debug: var=checkZone.results[1].stdout_lines[3].lstrip()
+
+      - name: Install Apache2 on Server
+        apt:
+          name: apache2
+          state: present
+
+      - name: Install PHP on Server
+        apt:
+          name: php
+          state: present
+
+      - name: Copy PHP Index File
+        copy:
+          src: index.php
+          dest: /var/www/html       
+          mode: 0644
+        notify:
+          - Restart Apache Service
+          - Ensure Apache is Running
+        
+      - name: Check Apache2 Status
+        shell: sudo systemctl status apache2
+        register: ApacheStatus
+      - debug: var=ApacheStatus.stdout_lines[2].lstrip()
+
+  handlers:
+    - name: Restart Apache Service
+      service:
+        name: apache2
+        state: restarted
+
+    - name: Ensure Apache is Running
+      service:
+        name: apache2
+        state: started
