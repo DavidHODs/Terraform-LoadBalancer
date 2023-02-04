@@ -43,7 +43,6 @@ resource aws_instance "terra_ec2" {
     ami = lookup(var.terra_var, "ami")
     instance_type = lookup(var.terra_var, "ttype")
     key_name = lookup(var.access_key, "terra_access")
-    # ec2_associate_public_ip_address = true
     security_groups = [aws_security_group.terra_sec.id]
     subnet_id = aws_subnet.terra-subnet[0].id
 
@@ -54,3 +53,8 @@ resource aws_instance "terra_ec2" {
     Os = "ubuntu"
   }
 } 
+
+output "terra_ec2_ip" {
+    description = "Public IP addresses of ec2 instances"
+    value = "${aws_instance.terra_ec2.*.public_ip}"
+}
