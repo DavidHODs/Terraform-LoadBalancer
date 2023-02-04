@@ -4,6 +4,8 @@
   hosts: aws_ec2
   become: true
   become_user: root
+  vars:
+    path: "var/www/html/"
 
   tasks:
     - block:
@@ -26,14 +28,19 @@
           name: php
           state: present
 
+      - name: "Delete PHP Index File if Present"
+        ansible.builtin.file:
+          path: "{{ path }}/index.php"
+          state: absent
+
       - name: Copy PHP Index File
         copy:
-          src: index.php
-          dest: /var/www/html       
+          src: /home/david/Desktop/Terra/ansible/index.php
+          dest: path     
           mode: 0644
         notify:
-          - Restart Apache Service
-          - Ensure Apache is Running
+          - Stop Apache Service
+          - Start Apache Service
         
       - name: Check Apache2 Status
         shell: systemctl status apache2
@@ -41,12 +48,12 @@
       - debug: var=ApacheStatus.stdout_lines[2].lstrip()
 
   handlers:
-    - name: Restart Apache Service
+    - name: Stop Apache Service
       service:
         name: apache2
-        state: restarted
+        state: stopped
 
-    - name: Ensure Apache is Running
+    - name: Start Apache Service
       service:
         name: apache2
         state: started
