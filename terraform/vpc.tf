@@ -16,7 +16,7 @@ resource "aws_subnet" "terra-subnet" {
   availability_zone = lookup(var.terra_zone, "zones")[count.index]
   
   map_public_ip_on_launch = true
-  count = 2
+  count = 3
 
   tags = {
     "Name" = "terra-subnet-${count.index}"

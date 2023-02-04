@@ -1,6 +1,6 @@
 <?php
-echo date("F d, Y h:i:s A e  \n and ", time());
+echo date("F d, Y h:i:s A e", time());
 ?>
 <?php
-echo "\n\nIP Address is ".$_SERVER['REMOTE_ADDR'];
+echo " and IP Address is ".$_SERVER['REMOTE_ADDR'];
 ?>

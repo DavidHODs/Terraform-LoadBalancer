@@ -5,7 +5,8 @@
   become: true
   become_user: root
   vars:
-    path: "var/www/html/"
+    path: "/var/www/html"
+
 
   tasks:
     - block:
@@ -36,7 +37,7 @@
       - name: Copy PHP Index File
         copy:
           src: /home/david/Desktop/Terra/ansible/index.php
-          dest: path     
+          dest: "{{ path }}"     
           mode: 0644
         notify:
           - Stop Apache Service
