@@ -9,6 +9,6 @@ To set up this architecture on your own private space; coupled with this code ba
 
 Generating an aws key pair resulted into a libcrypto error which I didn't have the time or patience to digged into. The code piece for this action is commented out in terraform/elastic_compute.tf. I resulted to using a key pair existing on my aws account prior to this project.
 
-The project can be accessed live on terraform-test.davidoluwatobi.me/ till I pull down the aws resources.
+The project can be accessed on this [link](erraform-test.davidoluwatobi.me/) till I pull down the aws resources.
 
 ![Live Product](live.png)
