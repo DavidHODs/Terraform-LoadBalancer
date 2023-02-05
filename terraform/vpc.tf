@@ -49,5 +49,5 @@ resource "aws_route_table_association" "terra-rt-association" {
     subnet_id = aws_subnet.terra-subnet[count.index].id
     route_table_id = aws_route_table.terra-rt.id
 
-    count = 2
+    count = 3
 }

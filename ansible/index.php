@@ -1,6 +1,9 @@
 <?php
-echo date("F d, Y h:i:s A e", time());
+date_default_timezone_set("Africa/Lagos");
+
+echo "<p>" . date("M d, Y h:i A e") . "</p>";
 ?>
+
 <?php
-echo " and IP Address is ".$_SERVER['REMOTE_ADDR'];
+echo "IP Address: ".$_SERVER['REMOTE_ADDR'];
 ?>

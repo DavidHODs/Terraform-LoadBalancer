@@ -48,12 +48,12 @@ resource aws_instance "terra_ec2" {
     instance_type = lookup(var.terra_var, "ttype")
     key_name = lookup(var.access_key, "terra_access")
     security_groups = [aws_security_group.terra_sec.id]
-    subnet_id = aws_subnet.terra-subnet[0].id
+    subnet_id = aws_subnet.terra-subnet[count.index].id
 
     count = 3
 
     tags = {
-    Name = "altschool_project-${count.index}"
+    Name = "terra_project-${count.index}"
     Os = "ubuntu"
   }
 } 
